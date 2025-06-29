@@ -8,6 +8,43 @@
     }
 }
 
+// Update UI
+function updateUI() {
+    // Update rice count
+    document.getElementById('rice-count').textContent = Math.floor(gameState.rice);
+    
+    // Update rice per second
+    document.getElementById('rice-per-second').textContent = gameState.ricePerSecond.toFixed(1);
+    
+    // Update building costs and owned counts
+    for (const [buildingId, building] of Object.entries(gameState.buildings)) {
+        if (building.unlocked) {
+            const costElement = document.getElementById(`${buildingId}-cost`);
+            const ownedElement = document.getElementById(`${buildingId}-owned`);
+            const productionElement = document.getElementById(`${buildingId}-production`);
+            
+            if (costElement) costElement.textContent = Math.floor(building.cost);
+            if (ownedElement) ownedElement.textContent = building.owned;
+            if (productionElement) productionElement.textContent = (building.owned * building.production).toFixed(1);
+        }
+    }
+    
+    // Update buy buttons (enable/disable based on rice count)
+    const buyButtons = document.querySelectorAll('.buy-button');
+    buyButtons.forEach(button => {
+        const upgradeId = button.getAttribute('data-upgrade');
+        
+        // Check if it's a building, click upgrade, or rice type
+        if (gameState.buildings[upgradeId]) {
+            button.disabled = gameState.rice < gameState.buildings[upgradeId].cost;
+        } else if (gameState.clickUpgrades[upgradeId]) {
+            button.disabled = gameState.rice < gameState.clickUpgrades[upgradeId].cost || gameState.clickUpgrades[upgradeId].purchased;
+        } else if (gameState.riceTypes[upgradeId]) {
+            button.disabled = gameState.rice < gameState.riceTypes[upgradeId].cost || gameState.riceTypes[upgradeId].purchased;
+        }
+    });
+}
+
 // Check building unlocks
 function checkBuildingUnlocks() {
     // Unlock agricultural cooperative when you have 10 rice fields
@@ -43,39 +80,18 @@ function checkBuildingUnlocks() {
 
 // Check upgrade availability
 function checkUpgradeAvailability() {
-    // Unlock farming tools when you have 50 rice
-    if (gameState.rice >= 50 && !gameState.clickUpgrades['farming-tools'].unlocked) {
-        gameState.clickUpgrades['farming-tools'].unlocked = true;
-        addClickUpgradeToUI('farming-tools');
+    // Set all upgrades to unlocked
+    for (const upgradeId in gameState.clickUpgrades) {
+        gameState.clickUpgrades[upgradeId].unlocked = true;
     }
     
-    // Unlock harvest festival when you have 300 rice
-    if (gameState.rice >= 300 && !gameState.clickUpgrades['harvest-festival'].unlocked) {
-        gameState.clickUpgrades['harvest-festival'].unlocked = true;
-        addClickUpgradeToUI('harvest-festival');
+    // Set all rice types to unlocked
+    for (const riceTypeId in gameState.riceTypes) {
+        gameState.riceTypes[riceTypeId].unlocked = true;
     }
     
-    // Unlock master farmer when you have 800 rice
-    if (gameState.rice >= 800 && !gameState.clickUpgrades['master-farmer'].unlocked) {
-        gameState.clickUpgrades['master-farmer'].unlocked = true;
-        addClickUpgradeToUI('master-farmer');
-    }
-    
-    // Unlock rice types
-    if (gameState.rice >= 500 && !gameState.riceTypes['koshihikari'].unlocked) {
-        gameState.riceTypes['koshihikari'].unlocked = true;
-        addRiceTypeToUI('koshihikari');
-    }
-    
-    if (gameState.rice >= 1500 && !gameState.riceTypes['sasanishiki'].unlocked) {
-        gameState.riceTypes['sasanishiki'].unlocked = true;
-        addRiceTypeToUI('sasanishiki');
-    }
-    
-    if (gameState.rice >= 3000 && !gameState.riceTypes['akitakomachi'].unlocked) {
-        gameState.riceTypes['akitakomachi'].unlocked = true;
-        addRiceTypeToUI('akitakomachi');
-    }
+    // Update UI to reflect availability
+    updateUI();
 }
 
 // Add building to UI
@@ -151,11 +167,21 @@ function addRiceTypeToUI(riceTypeId) {
 function initializeUpgrades() {
     // Add click upgrades tab content
     const clickUpgradesTab = document.getElementById('click-upgrades');
-    clickUpgradesTab.innerHTML = '<p data-ja="クリックしてお米を集めると、アップグレードが解放されます" data-en="Click to collect rice and unlock upgrades">クリックしてお米を集めると、アップグレードが解放されます</p>';
+    clickUpgradesTab.innerHTML = '';
+    
+    // Add initial click upgrades
+    addClickUpgradeToUI('farming-tools');
+    addClickUpgradeToUI('harvest-festival');
+    addClickUpgradeToUI('master-farmer');
     
     // Add rice types tab content
     const riceTypesTab = document.getElementById('rice-types');
-    riceTypesTab.innerHTML = '<p data-ja="お米を集めると、特別な品種が解放されます" data-en="Collect rice to unlock special varieties">お米を集めると、特別な品種が解放されます</p>';
+    riceTypesTab.innerHTML = '';
+    
+    // Add initial rice types
+    addRiceTypeToUI('koshihikari');
+    addRiceTypeToUI('sasanishiki');
+    addRiceTypeToUI('akitakomachi');
     
     // Check initial upgrades
     checkUpgradeAvailability();
