@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rice Clicker - お米クリッカー</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="language-toggle">
+        <button id="lang-ja" class="active">日本語</button>
+        <button id="lang-en">English</button>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1 class="title" data-ja="お米クリッカー" data-en="Rice Clicker">お米クリッカー</h1>
+        </header>
+
+        <main>
+            <div class="game-area">
+                <div class="stats">
+                    <div class="rice-counter">
+                        <span class="rice-label" data-ja="お米" data-en="Rice">お米</span>: 
+                        <span id="rice-count">0</span>
+                        <span class="rice-per-second" data-ja="毎秒" data-en="per second">
+                            (<span id="rice-per-second">0</span> 毎秒)
+                        </span>
+                    </div>
+                </div>
+
+                <div class="rice-container">
+                    <img id="rice-image" src="https://i.imgur.com/JHlFOeH.png" alt="Rice Grain" class="rice-image">
+                </div>
+            </div>
+
+            <div class="upgrades-container">
+                <h2 data-ja="アップグレード" data-en="Upgrades">アップグレード</h2>
+                <div class="upgrades-tabs">
+                    <button class="tab-button active" data-tab="buildings" data-ja="生産施設" data-en="Buildings">生産施設</button>
+                    <button class="tab-button" data-tab="click-upgrades" data-ja="クリック強化" data-en="Click Upgrades">クリック強化</button>
+                    <button class="tab-button" data-tab="rice-types" data-ja="米の種類" data-en="Rice Types">米の種類</button>
+                </div>
+
+                <div class="tab-content active" id="buildings">
+                    <div class="upgrade-item" id="rice-field">
+                        <div class="upgrade-info">
+                            <h3 data-ja="田んぼ" data-en="Rice Field">田んぼ</h3>
+                            <p data-ja="自動で米を生産します" data-en="Automatically produces rice">自動で米を生産します</p>
+                            <p class="cost"><span data-ja="コスト" data-en="Cost">コスト</span>: <span id="rice-field-cost">10</span> <span data-ja="お米" data-en="rice">お米</span></p>
+                            <p class="owned"><span data-ja="所有" data-en="Owned">所有</span>: <span id="rice-field-owned">0</span></p>
+                            <p class="production"><span data-ja="生産" data-en="Production">生産</span>: <span id="rice-field-production">0.1</span> <span data-ja="お米/秒" data-en="rice/sec">お米/秒</span></p>
+                        </div>
+                        <button class="buy-button" data-upgrade="rice-field" data-ja="購入" data-en="Buy">購入</button>
+                    </div>
+
+                    <div class="upgrade-item" id="farmer">
+                        <div class="upgrade-info">
+                            <h3 data-ja="農家" data-en="Farmer">農家</h3>
+                            <p data-ja="生産効率をアップします" data-en="Increases production efficiency">生産効率をアップします</p>
+                            <p class="cost"><span data-ja="コスト" data-en="Cost">コスト</span>: <span id="farmer-cost">50</span> <span data-ja="お米" data-en="rice">お米</span></p>
+                            <p class="owned"><span data-ja="所有" data-en="Owned">所有</span>: <span id="farmer-owned">0</span></p>
+                            <p class="production"><span data-ja="生産" data-en="Production">生産</span>: <span id="farmer-production">0.5</span> <span data-ja="お米/秒" data-en="rice/sec">お米/秒</span></p>
+                        </div>
+                        <button class="buy-button" data-upgrade="farmer" data-ja="購入" data-en="Buy">購入</button>
+                    </div>
+
+                    <div class="upgrade-item" id="rice-mill">
+                        <div class="upgrade-info">
+                            <h3 data-ja="精米所" data-en="Rice Mill">精米所</h3>
+                            <p data-ja="米の品質向上で価値増加" data-en="Increases value through quality improvement">米の品質向上で価値増加</p>
+                            <p class="cost"><span data-ja="コスト" data-en="Cost">コスト</span>: <span id="rice-mill-cost">200</span> <span data-ja="お米" data-en="rice">お米</span></p>
+                            <p class="owned"><span data-ja="所有" data-en="Owned">所有</span>: <span id="rice-mill-owned">0</span></p>
+                            <p class="production"><span data-ja="生産" data-en="Production">生産</span>: <span id="rice-mill-production">2</span> <span data-ja="お米/秒" data-en="rice/sec">お米/秒</span></p>
+                        </div>
+                        <button class="buy-button" data-upgrade="rice-mill" data-ja="購入" data-en="Buy">購入</button>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="click-upgrades">
+                    <!-- Click upgrades will be added here -->
+                </div>
+
+                <div class="tab-content" id="rice-types">
+                    <!-- Rice types will be added here -->
+                </div>
+            </div>
+        </main>
+
+        <div id="achievements" class="achievements">
+            <h2 data-ja="実績" data-en="Achievements">実績</h2>
+            <div class="achievements-list">
+                <!-- Achievements will be added here -->
+            </div>
+        </div>
+
+        <div id="notification-area" class="notification-area">
+            <!-- Notifications will appear here -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
